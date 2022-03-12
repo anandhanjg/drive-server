@@ -77,7 +77,7 @@ module.exports={
             req.body.password=await getHash(req.body.password);
             let user=await new userModel(req.body).save();
             user=JSON.parse(JSON.stringify(user));
-            fs.mkdirSync('./uploads/'+user.username);
+            fs.mkdirSync('./uploads/'+user.username,{recursive:true});
             delete user.password;
             delete user.tokens;
             res.json(getResponse('003',{user}));
