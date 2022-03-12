@@ -39,9 +39,9 @@ module.exports={
             let np=path+newName;
             console.log(op,np);
 
-            let [name,ext]=newName.split['.'];
+            // let [name,ext]=newName.split['.'];
 
-            if(mime.getType(name)) throw new ClientError("Name Not Allowed");
+            // if(mime.getType(name)) throw new ClientError("Name Not Allowed");
 
             if(fs.existsSync(np)) throw "A File/Folder Already Exists with Same Name:";
             // if(fs.readdirSync(path).find(file=>file==newName)) throw "Name Already Taken";
