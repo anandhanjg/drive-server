@@ -3,6 +3,35 @@ const uuid=require('uuid4');
 const { ROOT_PATH } = require('./const');
 const mime=require('mime');
 const fs=require('fs');
+
+const scan=(nodes,path,root,fileType)=>{
+    let ap=root+path;
+    try{
+        let children=fs.readdirSync(ap);
+        if(path!="" && !fileType){
+            nodes.push({
+                name:path.split('/').pop(),
+                type:'dir',
+                path
+            })
+        }
+        for(let i=0;i<children.length;i++){
+            scan(nodes,path+'/'+children[i],root,fileType);
+        }
+    }catch(err){
+        let mt=mime.getType(path);
+        if(mt){
+            if((fileType && mt.indexOf(fileType)!=-1)||!fileType){
+                nodes.push({
+                    name:path.split('/').pop(),
+                    type:mt,
+                    path
+                })
+            }
+        }
+    }
+}
+
 module.exports={
     generateOTP:(digits=6)=>{
         let otp=''
@@ -78,34 +107,7 @@ module.exports={
     genUUID:()=>uuid(),
     scanFolders:(path,root=ROOT_PATH,fileType="")=>{
         let nodes=[];
-        const scan=(path)=>{
-            let ap=root+path;
-            try{
-                let children=fs.readdirSync(ap);
-                if(path!="" && !fileType){
-                    nodes.push({
-                        name:path.split('/').pop(),
-                        type:'dir',
-                        path
-                    })
-                }
-                for(let i=0;i<children.length;i++){
-                    scan(path+'/'+children[i]);
-                }
-            }catch(err){
-                let mt=mime.getType(path);
-                if(mt){
-                    if((fileType && mt.indexOf(fileType)!=-1)||!fileType){
-                        nodes.push({
-                            name:path.split('/').pop(),
-                            type:mt,
-                            path
-                        })
-                    }
-                }
-            }
-        }
-        scan(path);
+        scan(nodes,path,root,fileType);
         return nodes;
     }
 }
