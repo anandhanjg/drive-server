@@ -18,8 +18,21 @@ module.exports={
             let R_P=getExPath(req.user.username,FOLDER_PATH);
             let files=fs.readdirSync(R_P);
             files=files.filter(f=>f[0]!=".").map(f=>{
-                let type=mime.getType(f)
-                return {name:f,mimeType:type || "dir",ext:type?mime.getExtension(type):'dir'}
+                let obj={
+                    name:f,
+                    mimeType:'dir',
+                    ext:'dir'
+                }
+                try{
+                    let children=fs.readdirSync(R_P+'/'+f);
+                    // return {name:f,mimeType:"dir",ext:'dir'}
+                }catch(err){
+                    let type=mime.getType(f)
+                    obj.mimeType=type;
+                    obj.ext=mime.getExtension(type)
+                    // return {name:f,mimeType:type,ext:mime.getExtension(type)}
+                }
+                return obj;
             });
             res.json(getResponse('005',{files,path:FOLDER_PATH}));
         }catch(err){

@@ -1,6 +1,8 @@
 const {Types:{ObjectId}}=require('mongoose');
 const uuid=require('uuid4');
-
+const { ROOT_PATH } = require('./const');
+const mime=require('mime');
+const fs=require('fs');
 module.exports={
     generateOTP:(digits=6)=>{
         let otp=''
@@ -73,5 +75,37 @@ module.exports={
         d2.setUTCMinutes(59);
         return [d1,d2];
     },
-    genUUID:()=>uuid()
+    genUUID:()=>uuid(),
+    scanFolders:(path,root=ROOT_PATH,fileType="")=>{
+        let nodes=[];
+        const scan=(path)=>{
+            let ap=root+path;
+            try{
+                let children=fs.readdirSync(ap);
+                if(path!="" && !fileType){
+                    nodes.push({
+                        name:path.split('/').pop(),
+                        type:'dir',
+                        path
+                    })
+                }
+                for(let i=0;i<children.length;i++){
+                    scan(path+'/'+children[i]);
+                }
+            }catch(err){
+                let mt=mime.getType(path);
+                if(mt){
+                    if((fileType && mt.indexOf(fileType)!=-1)||!fileType){
+                        nodes.push({
+                            name:path.split('/').pop(),
+                            type:mt,
+                            path
+                        })
+                    }
+                }
+            }
+        }
+        scan(path);
+        return nodes;
+    }
 }
