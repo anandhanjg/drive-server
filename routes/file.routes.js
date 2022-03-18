@@ -12,4 +12,7 @@ fileRouter.post('/touch',fileController.uploadAFile);
 fileRouter.post('/mv',fileController.renameFileOrFolder);
 fileRouter.get('/read',fileController.readFile);
 
+fileRouter.get('/scan',fileController.getParticulars);
+fileRouter.post('/scan',fileController.getParticulars);
+
 module.exports=fileRouter;

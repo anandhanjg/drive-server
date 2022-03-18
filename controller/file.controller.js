@@ -2,6 +2,7 @@ const fs=require('fs');
 const mime=require('mime');
 const { ROOT_PATH } = require('../common/const');
 const { getResponse } = require('../common/response');
+const { scanFolders } = require('../common/util');
 
 function getExPath(username,path,l=false,up=false){
     if(!path) path='/';
@@ -12,6 +13,16 @@ function getExPath(username,path,l=false,up=false){
 }
 
 module.exports={
+    getParticulars:async (req,res)=>{
+        try{
+            let path=req.body.path || req.query.path || '';
+            let fileType=req.body.fileType || req.query.fileType || '';
+            let nodes=scanFolders(path,ROOT_PATH,fileType);
+            res.json(getResponse('005',{nodes}));
+        }catch(e){
+            res.status(500).json(getResponse('006',{},err.message || err));   
+        }
+    },
     getFolderContents:async (req,res)=>{
         try{
             let FOLDER_PATH=req.body.FOLDER_PATH || req.query.FOLDER_PATH;
