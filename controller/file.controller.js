@@ -17,7 +17,7 @@ module.exports={
         try{
             let path=req.body.path || req.query.path || '';
             let fileType=req.body.fileType || req.query.fileType || '';
-            let nodes=scanFolders("/"+req.user.username+path,ROOT_PATH,fileType);
+            let nodes=scanFolders(path,ROOT_PATH+"/"+req.user.username,fileType);
             res.json(getResponse('005',{nodes}));
         }catch(e){
             res.status(500).json(getResponse('006',{},err.message || err));   
