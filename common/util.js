@@ -11,7 +11,8 @@ const scan=(nodes,path,root,fileType)=>{
         if(path!="" && !fileType){
             nodes.push({
                 name:path.split('/').pop(),
-                type:'dir',
+                mimeType:'dir',
+                ext:'dir',
                 path
             })
         }
@@ -24,7 +25,8 @@ const scan=(nodes,path,root,fileType)=>{
             if((fileType && mt.indexOf(fileType)!=-1)||!fileType){
                 nodes.push({
                     name:path.split('/').pop(),
-                    type:mt,
+                    mimeType:mt,
+                    ext:mime.getExtension(mt),
                     path
                 })
             }
