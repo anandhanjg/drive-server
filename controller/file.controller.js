@@ -81,7 +81,7 @@ module.exports={
             let {newPath,oldPath,fileName}=req.body;
             console.log(newPath,oldPath,fileName);
             if(!newPath || !oldPath || !fileName) throw new ClientError("NewPath, oldPath, fileName Required")
-            if(this.newPath == this.oldPath) throw "Already in Same Path";
+            if(newPath == oldPath) throw "Already in Same Path";
             let np=getExPath(req.user.username,newPath,true);
             let op=getExPath(req.user.username,oldPath,true);
             fs.renameSync(op+fileName,np+fileName);
