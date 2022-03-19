@@ -10,6 +10,7 @@ fileRouter.post('/mkdir',fileController.createAFolder);
 fileRouter.post('/rm',fileController.deleteAFolderOrFile);
 fileRouter.post('/touch',fileController.uploadAFile);
 fileRouter.post('/mv',fileController.renameFileOrFolder);
+fileRouter.post('/mvDirect',fileController.mvDirect);
 fileRouter.get('/read',fileController.readFile);
 
 fileRouter.get('/scan',fileController.getParticulars);

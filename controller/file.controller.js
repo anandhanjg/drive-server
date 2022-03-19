@@ -76,6 +76,20 @@ module.exports={
             res.status(err.status || 500).json(getResponse('010',{},err.message || err));
         }
     },
+    mvDirect:async (req,res)=>{
+        try{
+            let {newPath,oldPath,fileName}=req.body;
+            if(!newPath || !oldPath || !fileName) throw new ClientError("NewPath, oldPath, fileName Required")
+            if(this.newPath == this.oldPath) throw "Already in Same Path";
+            let np=getExPath(req.user.username,newPath,true);
+            let op=getExPath(req.user.username,oldPath,true);
+            fs.renameSync(op+fileName,np+fileName);
+            res.json(getResponse('009',{}));
+            if(fs.existsSync(np)) throw "A File/Folder Already Exists with Same Name:";
+        }catch(e){
+            res.status(err.status || 500).json(getResponse('010',{},err.message || err));
+        }
+    },
     createAFolder:(req,res)=>{
         try{
             let {name}=req.body;
