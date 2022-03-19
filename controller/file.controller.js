@@ -79,13 +79,14 @@ module.exports={
     mvDirect:async (req,res)=>{
         try{
             let {newPath,oldPath,fileName}=req.body;
+            console.log(newPath,oldPath,fileName);
             if(!newPath || !oldPath || !fileName) throw new ClientError("NewPath, oldPath, fileName Required")
             if(this.newPath == this.oldPath) throw "Already in Same Path";
             let np=getExPath(req.user.username,newPath,true);
             let op=getExPath(req.user.username,oldPath,true);
             fs.renameSync(op+fileName,np+fileName);
             res.json(getResponse('009',{}));
-            if(fs.existsSync(np)) throw "A File/Folder Already Exists with Same Name:";
+            // if(fs.existsSync(np)) throw "A File/Folder Already Exists with Same Name:";
         }catch(err){
             res.status(err.status || 500).json(getResponse('010',{},err.message || err));
         }
