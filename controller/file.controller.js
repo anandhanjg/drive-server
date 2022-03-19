@@ -86,7 +86,7 @@ module.exports={
             fs.renameSync(op+fileName,np+fileName);
             res.json(getResponse('009',{}));
             if(fs.existsSync(np)) throw "A File/Folder Already Exists with Same Name:";
-        }catch(e){
+        }catch(err){
             res.status(err.status || 500).json(getResponse('010',{},err.message || err));
         }
     },
