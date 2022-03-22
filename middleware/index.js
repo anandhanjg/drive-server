@@ -10,8 +10,8 @@ module.exports.setMiddlewares=(app,express)=>{
 
     app.use(getClientIp);
 
-    app.use(express.static('./public'));
-    app.use(express.static('./uploads'));
+    app.use(express.static('public'));
+    app.use(express.static('uploads'));
     // app.use(express.raw({limit:"10mb"}));
     // app.use(express.json({limit:"10mb"}))
 }
