@@ -50,9 +50,6 @@ module.exports={
             res.status(500).json(getResponse('006',{},err.message || err));
         }
     },
-    syncFoldersToDb:async (req,res)=>{
-
-    },
     renameFileOrFolder:async (req,res)=>{
         try{
             let {newName,oldName}=req.body;
@@ -62,18 +59,26 @@ module.exports={
             let op=path+oldName;
             let np=path+newName;
             console.log(op,np);
-
-            // let [name,ext]=newName.split['.'];
-
-            // if(mime.getType(name)) throw new ClientError("Name Not Allowed");
-
             if(fs.existsSync(np)) throw "A File/Folder Already Exists with Same Name:";
-            // if(fs.readdirSync(path).find(file=>file==newName)) throw "Name Already Taken";
-            
             fs.renameSync(op,np);
             res.json(getResponse('009',{}))
         }catch(err){
             res.status(err.status || 500).json(getResponse('010',{},err.message || err));
+        }
+    },
+    share:async (req,res)=>{
+        try{
+            res.json(getResponse('003',{link:"http"}))
+        }catch(err){
+            res.status(err.status || 500).json(getResponse('010',{},err.message || err));
+        }
+    },
+    getSharedFile:async (req,res)=>{
+        try{
+            
+            // res.json(getResponse('005',{link:"http"}))
+        }catch(err){
+            res.status(err.status || 500).json(getResponse('006',{},err.message || err));
         }
     },
     mvDirect:async (req,res)=>{
