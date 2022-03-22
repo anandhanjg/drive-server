@@ -2,8 +2,7 @@ const { getClientIp,cors } = require("./common.middleware");
 const { parseBody } = require("./parser.middleware");
 
 module.exports.setMiddlewares=(app,express)=>{
-    app.use(express.static('./public'));
-    app.use(express.static('./uploads'));
+    
     app.use(cors);
     app.use(parseBody);
 
